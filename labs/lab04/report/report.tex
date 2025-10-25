@@ -1,0 +1,660 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  english,
+  russian,
+  12pt,
+  a4paper,
+  DIV=11,
+  numbers=noendperiod]{scrreprt}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage{setspace}
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+\ifLuaTeX
+\usepackage[bidi=basic,provide=*]{babel}
+\else
+\usepackage[bidi=default,provide=*]{babel}
+\fi
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+\usepackage[backend=biber,langhook=extras,autolang=other*]{biblatex}
+\addbibresource{bib/cite.bib}
+
+\usepackage[]{csquotes}
+
+\usepackage{indentfirst}
+\usepackage{float}
+\floatplacement{figure}{H}
+\IfFileExists{plex-otf.sty}{
+  %% Full TeXlive
+  \IfPackageAtLeastTF{plex-otf.sty}{2024-12-06}{
+    \usepackage[math,RM={Scale=0.94},SS={Scale=0.94},SScon={Scale=0.94},TT={Scale=MatchLowercase,FakeStretch=0.9},DefaultFeatures={Ligatures=Common}]{plex-otf}
+  }{
+    \usepackage[RM={Scale=0.94},SS={Scale=0.94},SScon={Scale=0.94},TT={Scale=MatchLowercase,FakeStretch=0.9},DefaultFeatures={Ligatures=Common}]{plex-otf}
+  }
+}{
+  %% TinyTeX
+  \usepackage{libertine}
+}
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Содержание}
+\else
+  \newcommand\contentsname{Содержание}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{Список иллюстраций}
+\else
+  \newcommand\listfigurename{Список иллюстраций}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{Список таблиц}
+\else
+  \newcommand\listtablename{Список таблиц}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Рисунок}
+\else
+  \newcommand\figurename{Рисунок}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Таблица}
+\else
+  \newcommand\tablename{Таблица}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Список}
+\newcommand*\listoflistings{\listof{codelisting}{Листинги}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Лабораторная работа №4},
+  pdfauthor={Абрамян Артём Арменович},
+  pdflang={ru-RU},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Лабораторная работа №4}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Работа с графикой в LaTeX}
+\author{Абрамян Артём Арменович}
+\date{}
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{Содержание}
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\listoffigures
+\listoftables
+
+\setstretch{1.5}
+\chapter{Цель
+работы}\label{ux446ux435ux43bux44c-ux440ux430ux431ux43eux442ux44b}
+
+Цель данной работы --- изучить возможности включения и манипулирования
+графикой в LaTeX, освоить различные способы позиционирования
+изображений, научиться работать с перекрестными ссылками.
+
+\chapter{Задание}\label{ux437ux430ux434ux430ux43dux438ux435}
+
+Выполнить следующие задания:
+
+\begin{itemize}
+\tightlist
+\item
+  Попробовать включить собственное изображение, заменив стандартные
+  примеры.
+\item
+  Исследовать возможности параметров \texttt{height}, \texttt{width},
+  \texttt{angle} и \texttt{scale}.
+\item
+  Использовать параметр \texttt{width} для установки размера графики
+  относительно \texttt{textwidth} и другой графики относительно
+  \texttt{linewidth}. Протестировать их поведение с опцией
+  \texttt{twocolumn} и без нее.
+\item
+  Создать демонстрацию с использованием \texttt{lipsum} и попробовать
+  различные спецификаторы позиционирования флоатов. Изучить, как
+  различные спецификаторы взаимодействуют друг с другом.
+\item
+  Добавить новые нумерованные части (разделы, подразделы, нумерованные
+  списки) в тестовый документ и определить, сколько компиляций
+  необходимо для корректной работы команд \texttt{label}.
+\item
+  Добавить флоаты и проверить, что происходит при размещении
+  \texttt{label} до \texttt{caption} вместо после; предсказать
+  результат.
+\item
+  Выяснить, что происходит при размещении \texttt{label} для уравнения
+  после \texttt{end\ equation}.
+\end{itemize}
+
+\chapter{Теоретическое
+введение}\label{ux442ux435ux43eux440ux435ux442ux438ux447ux435ux441ux43aux43eux435-ux432ux432ux435ux434ux435ux43dux438ux435}
+
+Для включения графики в LaTeX используется пакет \texttt{graphicx},
+который добавляет команду \texttt{includegraphics}. Этот пакет
+поддерживает различные форматы изображений: EPS, PNG, JPG и PDF.
+
+Изображения в LaTeX обычно включаются как плавающие объекты (floats),
+чтобы избежать больших пустых промежутков на странице. Для управления
+позиционированием используются спецификаторы:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{h} --- \enquote*{Here} (здесь, если возможно)
+\item
+  \texttt{t} --- Top (верх страницы)
+\item
+  \texttt{b} --- Bottom (низ страницы)
+\item
+  \texttt{p} --- Page (отдельная страница только для флоатов)
+\item
+  \texttt{H} --- абсолютное позиционирование (требует пакет
+  \texttt{float})
+\end{itemize}
+
+Система перекрестных ссылок в LaTeX работает с помощью команд
+\texttt{label} и \texttt{ref}. Для корректной работы требуется минимум
+две компиляции документа.
+
+Более подробно про работу с графикой в LaTeX см. в
+\autocite{kotelnikov_chebotaev_book_latex2_ru,lvovsky_book_latex_ru}.
+
+\chapter{Выполнение лабораторной
+работы}\label{ux432ux44bux43fux43eux43bux43dux435ux43dux438ux435-ux43bux430ux431ux43eux440ux430ux442ux43eux440ux43dux43eux439-ux440ux430ux431ux43eux442ux44b}
+
+\section{Базовое включение
+графики}\label{ux431ux430ux437ux43eux432ux43eux435-ux432ux43aux43bux44eux447ux435ux43dux438ux435-ux433ux440ux430ux444ux438ux43aux438}
+
+Начнем работу с базового включения изображений в документ. Для этого
+используется пакет \texttt{graphicx} и команда \texttt{includegraphics}.
+На рисунке \ref{fig-001} показан простейший пример включения изображения
+в документ.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/fig01.png}
+
+}
+
+\caption{\label{fig-001}Базовый пример включения изображения}
+
+\end{figure}%
+
+\section{Манипулирование размерами
+графики}\label{ux43cux430ux43dux438ux43fux443ux43bux438ux440ux43eux432ux430ux43dux438ux435-ux440ux430ux437ux43cux435ux440ux430ux43cux438-ux433ux440ux430ux444ux438ux43aux438}
+
+\subsection{Параметр
+width}\label{ux43fux430ux440ux430ux43cux435ux442ux440-width}
+
+Параметр \texttt{width} позволяет задать ширину изображения. Можно
+использовать как абсолютные значения (например, 5cm), так и
+относительные (например, 0.5 от ширины текста). На рисунке \ref{fig-002}
+показан пример использования параметра \texttt{width}.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/fig02.png}
+
+}
+
+\caption{\label{fig-002}Изображение с параметром width}
+
+\end{figure}%
+
+\subsection{Параметр
+height}\label{ux43fux430ux440ux430ux43cux435ux442ux440-height}
+
+Аналогично ширине, можно задать высоту изображения с помощью параметра
+\texttt{height}. LaTeX автоматически сохраняет пропорции изображения
+(рис. \ref{fig-003}).
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/fig03.png}
+
+}
+
+\caption{\label{fig-003}Изображение с параметром height}
+
+\end{figure}%
+
+\subsection{Параметр
+scale}\label{ux43fux430ux440ux430ux43cux435ux442ux440-scale}
+
+Параметр \texttt{scale} позволяет масштабировать изображение
+пропорционально. Например, \texttt{scale=0.5} уменьшит изображение в два
+раза (рис. \ref{fig-004}).
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/fig04.png}
+
+}
+
+\caption{\label{fig-004}Использование параметра scale}
+
+\end{figure}%
+
+\subsection{Поворот
+изображения}\label{ux43fux43eux432ux43eux440ux43eux442-ux438ux437ux43eux431ux440ux430ux436ux435ux43dux438ux44f}
+
+С помощью параметра \texttt{angle} можно повернуть изображение на
+заданный угол в градусах. На рисунке \ref{fig-005} показан пример
+поворота изображения на 45 градусов.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/fig05.png}
+
+}
+
+\caption{\label{fig-005}Поворот изображения с помощью angle}
+
+\end{figure}%
+
+\section{Разница между textwidth и
+linewidth}\label{ux440ux430ux437ux43dux438ux446ux430-ux43cux435ux436ux434ux443-textwidth-ux438-linewidth}
+
+Параметр \texttt{textwidth} --- это ширина текстового блока на
+физической странице, тогда как \texttt{linewidth} --- это текущая
+ширина, которая может локально отличаться. На рисунке \ref{fig-006}
+показан пример использования \texttt{textwidth}.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/fig06.png}
+
+}
+
+\caption{\label{fig-006}Пример с textwidth}
+
+\end{figure}%
+
+Разница наиболее заметна при использовании опции класса
+\texttt{twocolumn}. В режиме двух колонок \texttt{linewidth}
+адаптируется к ширине колонки, а \texttt{textwidth} всегда относится к
+полной ширине страницы (рис. \ref{fig-007}).
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/fig07.png}
+
+}
+
+\caption{\label{fig-007}Демонстрация разницы в режиме twocolumn}
+
+\end{figure}%
+
+В обычном однокалоночном режиме эти значения одинаковы, но в
+\texttt{twocolumn} изображение с \texttt{width=0.5linewidth} будет
+занимать половину ширины колонки, а с \texttt{width=0.5textwidth} ---
+половину всей страницы.
+
+\section{Позиционирование
+флоатов}\label{ux43fux43eux437ux438ux446ux438ux43eux43dux438ux440ux43eux432ux430ux43dux438ux435-ux444ux43bux43eux430ux442ux43eux432}
+
+\subsection{Спецификаторы
+позиции}\label{ux441ux43fux435ux446ux438ux444ux438ux43aux430ux442ux43eux440ux44b-ux43fux43eux437ux438ux446ux438ux438}
+
+Можно использовать различные спецификаторы позиции для управления
+размещением изображений. На рисунке \ref{fig-008} показан пример кода с
+различными спецификаторами.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/fig08.png}
+
+}
+
+\caption{\label{fig-008}Пример с различными спецификаторами позиции}
+
+\end{figure}%
+
+\subsection{Использование пакета
+float}\label{ux438ux441ux43fux43eux43bux44cux437ux43eux432ux430ux43dux438ux435-ux43fux430ux43aux435ux442ux430-float}
+
+Пакет \texttt{float} добавляет спецификатор \texttt{H}, который
+размещает изображение точно в месте его определения в коде. Это показано
+на рисунке \ref{fig-009}.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/fig09.png}
+
+}
+
+\caption{\label{fig-009}Использование спецификатора H}
+
+\end{figure}%
+
+Результат компиляции с различными флоатами можно увидеть на рисунке
+\ref{fig-010}.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/fig10.png}
+
+}
+
+\caption{\label{fig-010}Результат компиляции с флоатами}
+
+\end{figure}%
+
+\section{Перекрестные
+ссылки}\label{ux43fux435ux440ux435ux43aux440ux435ux441ux442ux43dux44bux435-ux441ux441ux44bux43bux43aux438}
+
+\subsection{Механизм label и
+ref}\label{ux43cux435ux445ux430ux43dux438ux437ux43c-label-ux438-ref}
+
+Для автоматической нумерации элементов используется механизм меток. На
+рисунке \ref{fig-011} показаны примеры использования \texttt{label} и
+\texttt{ref}.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/fig11.png}
+
+}
+
+\caption{\label{fig-011}Примеры label и ref}
+
+\end{figure}%
+
+\subsection{Правильное размещение
+label}\label{ux43fux440ux430ux432ux438ux43bux44cux43dux43eux435-ux440ux430ux437ux43cux435ux449ux435ux43dux438ux435-label}
+
+Команда \texttt{label} всегда ссылается на предыдущую нумерованную
+сущность. Для флоатов \texttt{label} должна идти после команды
+\texttt{caption}. Правильный пример показан на рисунке \ref{fig-012}.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/fig12.png}
+
+}
+
+\caption{\label{fig-012}Правильное размещение метки}
+
+\end{figure}%
+
+\subsection{Неправильное размещение
+метки}\label{ux43dux435ux43fux440ux430ux432ux438ux43bux44cux43dux43eux435-ux440ux430ux437ux43cux435ux449ux435ux43dux438ux435-ux43cux435ux442ux43aux438}
+
+Если поместить \texttt{label} перед \texttt{caption}, метка будет
+ссылаться на номер секции, а не на номер рисунка. Это демонстрируется на
+рисунке \ref{fig-013}.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/fig13.png}
+
+}
+
+\caption{\label{fig-013}Неправильное размещение метки}
+
+\end{figure}%
+
+При неправильном размещении ссылка указывает на неверный номер.
+
+\subsection{Метки для
+уравнений}\label{ux43cux435ux442ux43aux438-ux434ux43bux44f-ux443ux440ux430ux432ux43dux435ux43dux438ux439}
+
+Для уравнений метка должна находиться внутри окружения
+\texttt{equation}, до команды закрывающей окружение. На рисунке
+\ref{fig-014} показаны правильный и неправильный примеры.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/fig14.png}
+
+}
+
+\caption{\label{fig-014}Метки для уравнений}
+
+\end{figure}%
+
+Если метка размещена после закрытия окружения \texttt{equation}, она
+будет ссылаться на номер раздела, а не на номер уравнения.
+
+\subsection{Количество
+компиляций}\label{ux43aux43eux43bux438ux447ux435ux441ux442ux432ux43e-ux43aux43eux43cux43fux438ux43bux44fux446ux438ux439}
+
+Из-за использования вспомогательного файла первая компиляция документа
+может показать вопросительные знаки вместо номеров ссылок (рис.
+\ref{fig-015}).
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/fig15.png}
+
+}
+
+\caption{\label{fig-015}Первая компиляция с вопросительными знаками}
+
+\end{figure}%
+
+После второй компиляции все ссылки становятся правильными (рис.
+\ref{fig-016}).
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/fig16.png}
+
+}
+
+\caption{\label{fig-016}Вторая компиляция с правильными номерами}
+
+\end{figure}%
+
+\section{Использование пакета
+hyperref}\label{ux438ux441ux43fux43eux43bux44cux437ux43eux432ux430ux43dux438ux435-ux43fux430ux43aux435ux442ux430-hyperref}
+
+Пакет \texttt{hyperref} позволяет превратить перекрестные ссылки в
+гиперссылки. На рисунке \ref{fig-017} показан пример подключения пакета.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/fig17.png}
+
+}
+
+\caption{\label{fig-017}Подключение пакета hyperref}
+
+\end{figure}%
+
+С опцией \texttt{hidelinks} ссылки имеют тот же цвет, что и обычный
+текст, но остаются кликабельными в PDF.
+
+\chapter{Выводы}\label{ux432ux44bux432ux43eux434ux44b}
+
+В ходе данной работы мы изучили продвинутые возможности работы с
+графикой в LaTeX. Освоили:
+
+\begin{itemize}
+\tightlist
+\item
+  Базовое включение графики с помощью пакета \texttt{graphicx}
+\item
+  Манипулирование размерами изображений с помощью параметров
+  \texttt{width}, \texttt{height}, \texttt{scale} и \texttt{angle}
+\item
+  Разницу между \texttt{textwidth} и \texttt{linewidth}, особенно в
+  режиме \texttt{twocolumn}
+\item
+  Различные спецификаторы позиционирования флоатов (\texttt{h},
+  \texttt{t}, \texttt{b}, \texttt{p}, \texttt{H})
+\item
+  Правильное использование системы перекрестных ссылок с помощью
+  \texttt{label} и \texttt{ref}
+\item
+  Важность правильного размещения меток (после \texttt{caption} для
+  флоатов, внутри окружения для уравнений)
+\item
+  Необходимость минимум двух компиляций для корректной работы
+  перекрестных ссылок
+\item
+  Создание кликабельных гиперссылок с помощью пакета \texttt{hyperref}
+\end{itemize}
+
+Особое внимание было уделено распространенным ошибкам при размещении
+меток и способам их избежания.
+
+\chapter*{Список
+литературы}\label{ux441ux43fux438ux441ux43eux43a-ux43bux438ux442ux435ux440ux430ux442ux443ux440ux44b}
+\addcontentsline{toc}{chapter}{Список литературы}
+
+\printbibliography[heading=none]
+
+
+
+
+
+\end{document}
