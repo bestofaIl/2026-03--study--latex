@@ -366,3 +366,5 @@ plugins
 vm/
 
 .idea/
+
+.DS_Store
