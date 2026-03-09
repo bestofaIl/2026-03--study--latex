@@ -1,0 +1,406 @@
+\documentclass{article}
+\usepackage[T2A]{fontenc}        
+\usepackage[utf8]{inputenc}    
+\usepackage[russian,english]{babel}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyvrb}
+
+\title{Computer Skills for Scientific Writing\\Работа с графикой в LaTeX}
+\author{Абрамян Артём Арменович}
+\date{Октябрь 2025}
+
+\begin{document}
+  \maketitle
+  \pagebreak
+
+  \textbf{Цель работы:} Изучить возможности включения и манипулирования графикой в LaTeX, освоить различные способы позиционирования изображений, научиться работать с перекрестными ссылками.\smallskip
+
+  \section{Введение}
+  \label{sec:intro}
+  
+  В данной работе мы изучаем работу с графикой в LaTeX согласно документации. Для включения графики используется пакет \texttt{graphicx}, который добавляет команду \texttt{\textbackslash includegraphics}.
+
+  \section{Базовое включение графики}
+  \label{sec:basic}
+  
+  Создаем простой LaTeX файл с графикой. Пакет \texttt{graphicx} поддерживает форматы EPS, PNG, JPG и PDF.
+
+  \begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{fig01.png}
+    \caption{Базовый пример включения изображения}
+    \label{fig:fig01}
+  \end{figure}
+
+  На рисунке~\ref{fig:fig01} показан базовый код для включения изображения в документ.
+
+  \section{Манипулирование размерами графики}
+  \label{sec:dimensions}
+
+  \subsection{Использование параметра width}
+  \label{subsec:width}
+  
+  Параметр \texttt{width} позволяет задать ширину изображения. Можно использовать абсолютные значения (например, 5cm) или относительные (например, 0.5\textbackslash textwidth).
+
+  Пример кода:
+
+  \texttt{\textbackslash includegraphics[width=0.5\textbackslash textwidth]\{image.png\}}
+
+  \begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{fig02.png}
+    \caption{Изображение с параметром width=0.5\textbackslash textwidth}
+    \label{fig:fig02}
+  \end{figure}
+
+  \subsection{Использование параметра height}
+  \label{subsec:height}
+  
+  Аналогично ширине, можно задать высоту изображения с помощью параметра \texttt{height}. LaTeX автоматически сохраняет пропорции изображения.
+
+  Пример кода:
+
+  \texttt{\textbackslash includegraphics[height=5cm]\{image.png\}}
+
+  \begin{figure}[!h]
+    \centering
+    \includegraphics[height=5cm]{fig03.png}
+    \caption{Изображение с параметром height=5cm}
+    \label{fig:fig03}
+  \end{figure}
+
+  \subsection{Параметр scale}
+  \label{subsec:scale}
+  
+  Параметр \texttt{scale} позволяет масштабировать изображение пропорционально. Например, scale=0.5 уменьшит изображение в два раза.
+
+  Пример кода:
+
+  \texttt{\textbackslash includegraphics[scale=0.5]\{image.png\}}
+
+  \begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.5]{fig04.png}
+    \caption{Использование параметра scale=0.5}
+    \label{fig:fig04}
+  \end{figure}
+
+  \subsection{Поворот изображения}
+  \label{subsec:angle}
+  
+  С помощью параметра \texttt{angle} можно повернуть изображение на заданный угол в градусах.
+
+  Пример кода:
+
+  \texttt{\textbackslash includegraphics[angle=45,width=0.6\textbackslash textwidth]\{image.png\}}
+
+  \begin{figure}[!h]
+    \centering
+    \includegraphics[angle=45,width=0.6\textwidth]{fig05.png}
+    \caption{Поворот изображения на 45 градусов с помощью параметра angle=45}
+    \label{fig:fig05}
+  \end{figure}
+
+  \section{Разница между \textbackslash textwidth и \textbackslash linewidth}
+  \label{sec:difference}
+  
+  \texttt{\textbackslash textwidth} --- это ширина текстового блока на физической странице, тогда как \texttt{\textbackslash linewidth} --- это текущая ширина, которая может локально отличаться.
+
+  \begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{fig06.png}
+    \caption{Пример кода с использованием \textbackslash textwidth}
+    \label{fig:fig06}
+  \end{figure}
+
+  Пример использования \texttt{\textbackslash textwidth}:
+
+  \texttt{\textbackslash includegraphics[width=0.5\textbackslash textwidth]\{image.png\}}
+
+  Пример использования \texttt{\textbackslash linewidth}:
+
+  \texttt{\textbackslash includegraphics[width=0.5\textbackslash linewidth]\{image.png\}}
+
+  Разница наиболее заметна при использовании опции класса \texttt{twocolumn}. В режиме двух колонок \texttt{\textbackslash linewidth} адаптируется к ширине колонки, а \texttt{\textbackslash textwidth} всегда относится к полной ширине страницы.
+
+  \begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{fig07.png}
+    \caption{Демонстрация разницы в режиме twocolumn}
+    \label{fig:fig07}
+  \end{figure}
+
+  В обычном однокалоночном режиме эти значения одинаковы, но в \texttt{twocolumn} изображение с \texttt{width=0.5\textbackslash linewidth} будет занимать половину ширины колонки, а с \texttt{width=0.5\textbackslash textwidth} --- половину всей страницы.
+
+  \section{Позиционирование флоатов}
+  \label{sec:floats}
+  
+  В LaTeX изображения обычно включаются как флоаты (floats), чтобы избежать больших пустых промежутков на странице.
+
+  \subsection{Спецификаторы позиции}
+  \label{subsec:specifiers}
+  
+  Можно использовать до четырех спецификаторов позиции:
+  \begin{itemize}
+    \item \texttt{h} --- 'Here' (здесь, если возможно)
+    \item \texttt{t} --- Top (верх страницы)
+    \item \texttt{b} --- Bottom (низ страницы)
+    \item \texttt{p} --- Page (отдельная страница только для флоатов)
+  \end{itemize}
+
+  Пример использования спецификатора [ht]:
+
+  \texttt{\textbackslash begin\{figure\}[ht]}
+
+  \texttt{\textbackslash centering}
+
+  \texttt{\textbackslash includegraphics[width=0.5\textbackslash textwidth]\{image.png\}}
+
+  \texttt{\textbackslash caption\{Изображение\}}
+
+  \texttt{\textbackslash end\{figure\}}
+
+  \begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{fig08.png}
+    \caption{Пример кода с различными спецификаторами позиции}
+    \label{fig:fig08}
+  \end{figure}
+
+  \subsection{Использование пакета float}
+  \label{subsec:float_package}
+  
+  Пакет \texttt{float} добавляет спецификатор \texttt{H}, который размещает изображение точно в месте его определения в коде.
+
+  Сначала подключаем пакет:
+
+  \texttt{\textbackslash usepackage\{float\}}
+
+  Затем используем спецификатор [H]:
+
+  \texttt{\textbackslash begin\{figure\}[H]}
+
+  \texttt{\textbackslash centering}
+
+  \texttt{\textbackslash includegraphics[width=0.5\textbackslash textwidth]\{image.png\}}
+
+  \texttt{\textbackslash caption\{Изображение точно здесь\}}
+
+  \texttt{\textbackslash end\{figure\}}
+
+  \begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{fig09.png}
+    \caption{Код с использованием спецификатора [H] из пакета float}
+    \label{fig:fig09}
+  \end{figure}
+
+%   \begin{figure}[!h]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{fig10.png}
+%     \caption{Результат компиляции с флоатами}
+%     \label{fig:fig10}
+%   \end{figure}
+
+  \section{Перекрестные ссылки}
+  \label{sec:crossref}
+  
+  \subsection{Механизм \textbackslash label и \textbackslash ref}
+  \label{subsec:label_ref}
+  
+  Для автоматической нумерации элементов используется механизм меток. Чтобы LaTeX запомнил место в документе, его нужно пометить с помощью \texttt{\textbackslash label}, а затем сослаться на него с помощью \texttt{\textbackslash ref}.
+
+  Пример использования для разделов:
+
+  \texttt{\textbackslash section\{Введение\}}
+
+  \texttt{\textbackslash label\{sec:intro\}}
+
+  \texttt{Как описано в разделе\textasciitilde\textbackslash ref\{sec:intro\}...}
+
+  Пример использования для рисунков:
+
+  \texttt{\textbackslash begin\{figure\}[ht]}
+
+  \texttt{\textbackslash centering}
+
+  \texttt{\textbackslash includegraphics[width=0.5\textbackslash textwidth]\{image.png\}}
+
+  \texttt{\textbackslash caption\{Пример\}}
+
+  \texttt{\textbackslash label\{fig:example\}}
+
+  \texttt{\textbackslash end\{figure\}}
+
+  \texttt{На рисунке\textasciitilde\textbackslash ref\{fig:example\} показано...}
+
+  \begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{fig11.png}
+    \caption{Пример использования \textbackslash label и \textbackslash ref}
+    \label{fig:fig11}
+  \end{figure}
+
+  Например, это подраздел~\ref{subsec:label_ref}, который находится в разделе~\ref{sec:crossref}. Ссылка на рисунок~\ref{fig:fig11} автоматически подставляет правильный номер.
+
+  \subsection{Правильное размещение \textbackslash label}
+  \label{subsec:correct_label}
+  
+  Команда \texttt{\textbackslash label} всегда ссылается на предыдущую нумерованную сущность. Это означает, что для флоатов \texttt{\textbackslash label} должна идти \textbf{после} команды \texttt{\textbackslash caption}.
+
+  Правильный пример:
+
+  \texttt{\textbackslash begin\{figure\}[ht]}
+
+  \texttt{\textbackslash centering}
+
+  \texttt{\textbackslash includegraphics[width=0.5\textbackslash textwidth]\{image.png\}}
+
+  \texttt{\textbackslash caption\{Описание изображения\}}
+
+  \texttt{\textbackslash label\{fig:correct\}}
+
+  \texttt{\textbackslash end\{figure\}}
+
+  \begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{fig12.png}
+    \caption{Правильное размещение метки --- после caption}
+    \label{fig:fig12}
+  \end{figure}
+
+  \subsection{Неправильное размещение метки}
+  \label{subsec:incorrect_label}
+  
+  Если поместить \texttt{\textbackslash label} перед \texttt{\textbackslash caption}, метка будет ссылаться на номер секции, а не на номер рисунка.
+
+  Неправильный пример:
+
+  \texttt{\textbackslash begin\{figure\}[ht]}
+
+  \texttt{\textbackslash centering}
+
+  \texttt{\textbackslash label\{fig:incorrect\}}
+
+  \texttt{\textbackslash includegraphics[width=0.5\textbackslash textwidth]\{image.png\}}
+
+  \texttt{\textbackslash caption\{Описание изображения\}}
+
+  \texttt{\textbackslash end\{figure\}}
+
+  \begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{fig13.png}
+    \caption{Демонстрация неправильного размещения метки}
+    \label{fig:fig13}
+  \end{figure}
+
+
+  \subsection{Метки для уравнений}
+  \label{subsec:equations}
+  
+  Для уравнений метка должна находиться внутри окружения \texttt{equation}, до команды \texttt{\textbackslash end\{equation\}}.
+
+  \begin{equation}
+  E = mc^2
+  \label{eq:correct}
+  \end{equation}
+
+  Правильный пример:
+
+  \texttt{\textbackslash begin\{equation\}}
+
+  \texttt{E = mc\textasciicircum 2}
+
+  \texttt{\textbackslash label\{eq:einstein\}}
+
+  \texttt{\textbackslash end\{equation\}}
+
+  \texttt{Уравнение\textasciitilde\textbackslash ref\{eq:einstein\} показывает...}
+
+  Неправильный пример:
+
+  \texttt{\textbackslash begin\{equation\}}
+
+  \texttt{a\textasciicircum 2 + b\textasciicircum 2 = c\textasciicircum 2}
+
+  \texttt{\textbackslash end\{equation\}}
+
+  \texttt{\textbackslash label\{eq:wrong\}}
+
+  \texttt{Уравнение\textasciitilde\textbackslash ref\{eq:wrong\} будет ссылаться на номер раздела!}
+
+  \begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{fig14.png}
+    \caption{Правильное и неправильное размещение меток для уравнений}
+    \label{fig:fig14}
+  \end{figure}
+
+  Если метка размещена после \texttt{\textbackslash end\{equation\}}, она будет ссылаться на номер раздела, а не на номер уравнения.
+
+  \subsection{Количество компиляций}
+  \label{subsec:compilation}
+  
+  Из-за использования вспомогательного файла, первая компиляция документа может показать вопросительные знаки (??) вместо номеров ссылок.
+
+  \begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{fig15.png}
+    \caption{Первая компиляция --- вопросительные знаки вместо номеров}
+    \label{fig:fig15}
+  \end{figure}
+
+  \begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{fig16.png}
+    \caption{Вторая компиляция --- правильные номера ссылок}
+    \label{fig:fig16}
+  \end{figure}
+
+  После второй компиляции все ссылки будут правильными, как показано на рисунках~\ref{fig:fig15} и~\ref{fig:fig16}.
+
+  \section{Использование пакета hyperref}
+  \label{sec:hyperref}
+  
+  Пакет \texttt{hyperref} позволяет превратить перекрестные ссылки в гиперссылки. В данном документе используется опция \texttt{hidelinks}, чтобы ссылки имели тот же цвет, что и обычный текст.
+
+  Пример подключения:
+
+  \texttt{\textbackslash usepackage[hidelinks]\{hyperref\}}
+
+  Другие полезные опции:
+
+  \texttt{\textbackslash usepackage[colorlinks=true,}
+
+  \texttt{linkcolor=blue,}
+
+  \texttt{citecolor=red]\{hyperref\}}
+
+%   \begin{figure}[!h]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{fig17.png}
+%     \caption{Подключение пакета hyperref}
+%     \label{fig:fig17}
+%   \end{figure}
+
+  Теперь можно кликнуть на любую ссылку, например на раздел~\ref{sec:intro}, и перейти к соответствующему месту в документе.
+
+  \section{Заключение}
+  \label{sec:conclusion}
+  
+  В данной работе были продемонстрированы:
+  \begin{itemize}
+    \item Базовое включение графики в документ (раздел~\ref{sec:basic})
+    \item Манипулирование размерами изображений с помощью width, height, scale и angle (раздел~\ref{sec:dimensions})
+    \item Разница между \textbackslash textwidth и \textbackslash linewidth (раздел~\ref{sec:difference})
+    \item Различные спецификаторы позиционирования флоатов (раздел~\ref{sec:floats})
+    \item Правильное использование механизма меток и ссылок (раздел~\ref{sec:crossref})
+    \item Создание гиперссылок с помощью пакета hyperref (раздел~\ref{sec:hyperref})
+  \end{itemize}
+
+  \textbf{Выводы:} В данной работе мы изучили продвинутые возможности работы с графикой в LaTeX. Освоили управление размерами и позиционированием изображений, а также правильное использование системы перекрестных ссылок. Особое внимание было уделено распространенным ошибкам при размещении меток и способам их избежания. Выяснили, что для корректной работы перекрестных ссылок необходимо компилировать документ минимум два раза.
+
+\end{document}

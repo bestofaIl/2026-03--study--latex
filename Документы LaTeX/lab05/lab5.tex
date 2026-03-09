@@ -1,0 +1,824 @@
+\documentclass{article}
+\usepackage[T2A]{fontenc}        
+\usepackage[utf8]{inputenc}    
+\usepackage[russian,english]{babel}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyvrb}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{threeparttable}
+
+\title{Computer Skills for Scientific Writing\\Работа с графикой в LaTeX}
+\author{Абрамян Артём Арменович}
+\date{Октябрь 2025}
+
+\begin{document}
+  \maketitle
+  \pagebreak
+
+  \textbf{Цель работы:} Изучить возможности включения и манипулирования таблицами в LaTeX, освоить различные типы колон, научиться использовать правила.\smallskip
+
+  \section{Введение}
+  \label{sec:intro}
+  
+  В данной работе мы изучаем работу с таблицами в LaTeX согласно документации. Для включения таблиц используется пакет \texttt{array}, который добавляет еще несколько типов колон к встроенным в LaTeX.
+
+  \section{Базовое создание таблицы}
+  \label{sec:basic}
+  
+  Создаем простой LaTeX файл с таблицой.
+
+  \smallskip
+
+  % \begin{figure}[!h]
+  %   \centering
+  %   \includegraphics[width=0.8\textwidth]{fig01.png}
+  %   \caption{Базовый пример включения изображения}
+  %   \label{fig:fig01}
+  % \end{figure}
+
+  \begin{tabular}{lll}
+    Animal & Food & Size \\
+    dog & meat & medium \\
+    horse & hay & large \\
+    frog & flies & small \\
+  \end{tabular}
+
+
+
+
+  \section{Проблемы с переполнением}
+  \label{sec:overflow}
+  
+  Рассмотрим пример, где много текста в колонне.
+
+  \smallskip
+
+  \begin{tabular}{cl}
+    Animal & Description \\
+    dog & The dog is a member of the genus Canis, which forms
+    part of the
+    wolf-like canids, and is the most widely abundant
+    terrestrial
+    carnivore. \\
+    cat & The cat is a domestic species of small carnivorous
+    mammal. It is the
+    only domesticated species in the family Felidae and
+    is often referred
+    to as the domestic cat to distinguish it from the
+    wild members of the
+    family. \\
+  \end{tabular}
+
+
+  \smallskip
+
+  Проблема в том, что столбец типа l верстается в одну строку с естественной шириной, даже если на пути находится граница страницы
+
+
+
+  \section{Решение проблемы с переполнением}
+  \label{sec:overflowfix}
+  
+  Можно использовать столбец p. Он верстается как абзацы с шириной, указанной нами. Создадим таблицу указав ширину 9cm.
+
+  \smallskip
+
+  \begin{tabular}{cp{9cm}}
+    Animal & Description \\
+    dog & The dog is a member of the genus Canis, which forms
+     part of the
+    wolf-like canids, and is the most widely abundant
+     terrestrial
+    carnivore. \\
+    cat & The cat is a domestic species of small carnivorous
+     mammal. It is the
+    only domesticated species in the family Felidae and
+     is often referred
+    to as the domestic cat to distinguish it from the
+     wild members of the
+    family. \\
+  \end{tabular}
+
+  \smallskip
+
+  Теперь нет проблем с переполением текста за границы документа.
+
+
+  \section{Сокращение для одинаковых колон}
+  \label{sec:short}
+  
+  Если в таблице много колон с одинаковым типом, можно сокращенно задать их в формате *{6}{c} - что будет равносильно cccccc.
+
+  \smallskip
+
+  \begin{tabular}{*{3}{l}}
+    Animal & Food & Size \\
+    dog & meat & medium \\
+    horse & hay & large \\
+    frog & flies & small \\
+  \end{tabular}
+
+  \smallskip
+
+  Результат аналогичен, как если бы мы задавали таблицу без сокращений.
+
+
+
+  \section{Добавление команд}
+  \label{sec:rules}
+  
+
+  Ознакомимся сразу с возможностями пакета booktabs:
+  booktabs предоставляет четыре различных типа линий. Каждая из этих команд должна
+  использоваться первой в строке или после другого правила. Три команды правил: toprule, midrule и bottomrule.
+
+  \smallskip
+
+  \begin{tabular}{lll}
+  \toprule
+    Animal & Food & Size \\
+  \midrule
+    dog & meat & medium \\
+    horse & hay & large \\
+    frog & flies & small \\
+  \bottomrule
+  \end{tabular}
+
+  \smallskip
+
+  Четвёртая команда для правил, предоставляемая booktabs, —  cmidrule. Её можно использовать
+  для построения линии, охватывающей не всю ширину таблицы, а только указанный
+  диапазон столбцов. Диапазон столбцов вводится как числовой диапазон: {число-число}.
+  Даже если мы хотим построить линию только для одного столбца, нам необходимо указать его
+  как диапазон (с совпадающими числами).
+
+  \smallskip
+
+  \begin{tabular}{lll}
+  \toprule
+    Animal & Food & Size \\
+  \midrule
+    dog & meat & medium \\
+  \cmidrule{1-2}
+    horse & hay & large \\
+  \cmidrule{1-1}
+  \cmidrule{3-3}
+    frog & flies & small \\
+  \bottomrule
+  \end{tabular}
+
+
+  Есть ещё одна полезная функция \\cmidrule. Вы можете сократить его с любой стороны,
+  добавив необязательный аргумент в скобках:
+
+  \smallskip
+
+  \begin{tabular}{lll}
+  \toprule
+    Animal & Food & Size \\
+  \midrule
+    dog & meat & medium \\
+  \cmidrule{1-2}
+    horse & hay & large \\
+  \cmidrule(r){1-1}
+  \cmidrule(rl){2-2}
+  \cmidrule(l){3-3}
+    frog & flies & small \\
+  \bottomrule
+  \end{tabular}
+
+  \smallskip
+
+  Иногда правило может быть слишком строгим для разделения двух строк, но чтобы более чётко донести смысл, нужно каким-то образом их разделить. В этом случае
+  можно использовать addlinespace для вставки небольшого пробела.
+
+  \smallskip
+
+  \begin{tabular}{cp{9cm}}
+  \toprule
+    Animal & Description \\
+  \midrule
+    dog & The dog is a member of the genus Canis, which forms
+     part of the
+    wolf-like canids, and is the most widely abundant
+     terrestrial
+    carnivore. \\
+  \addlinespace
+    cat & The cat is a domestic species of small carnivorous
+     mammal. It is the
+    only domesticated species in the family Felidae and
+     is often referred
+    to as the domestic cat to distinguish it from the
+     wild members of the
+    family. \\
+  \bottomrule
+  \end{tabular}
+
+
+  \section{Объединение ячеек}
+  \label{sec:merge}
+  
+  В LaTeX можно объединять ячейки по горизонтали с помощью команды multicolumn.
+  Её необходимо использовать в качестве первой команды в ячейке. multicolumn принимает три аргумента:
+  1. Количество ячеек, которые нужно объединить.
+  2. Выравнивание объединённой ячейки.
+  3. Содержимое объединённой ячейки.
+  Выравнивание может содержать любые допустимые в преамбуле таблицы значения, но только один тип столбца.
+
+
+  \smallskip
+
+  \begin{tabular}{lll}
+  \toprule
+    Animal & Food & Size \\
+  \midrule
+    dog & meat & medium \\
+    horse & hay & large \\
+    frog & flies & small \\
+    fuath & \multicolumn{2}{c}{unknown} \\
+  \bottomrule
+  \end{tabular}
+
+  \smallskip
+
+
+  Вы также можете использовать multicolumn для одной ячейки, 
+  чтобы предотвратить применение любых настроек, указанных в преамбуле таблицы для текущего столбца. 
+  В следующем примере этот метод используется для центрирования заголовка таблицы:
+
+  \smallskip
+
+  \begin{tabular}{lll}
+  \toprule
+  \multicolumn{1}{c}{Animal} & \multicolumn{1}{c}{Food} &
+  \multicolumn{1}{c}{Size} \\
+  \midrule
+    dog & meat & medium \\
+    horse & hay & large \\
+    frog & flies & small \\
+    fuath & \multicolumn{2}{c}{unknown} \\
+  \bottomrule
+  \end{tabular}
+
+  \smallskip
+
+  Вертикальное объединение ячеек в LaTeX не поддерживается. Обычно достаточно оставить ячейки
+  пустыми, чтобы читатель правильно понял, что имелось в виду, без явного
+  объединения ячеек между строками.
+
+
+    \smallskip
+
+  \begin{tabular}{lll}
+  \toprule
+    Group & Animal & Size \\
+  \midrule
+    herbivore & horse & large \\
+    & deer & medium \\
+    & rabbit & small \\
+  \addlinespace
+    carnivore & dog & medium \\
+    & cat & small \\
+    & lion & large \\
+  \addlinespace
+    omnivore & crow & small \\
+    & bear & large \\
+    & pig & medium \\
+  \bottomrule
+  \end{tabular}
+
+
+
+
+
+
+
+
+
+
+
+  \section{Другое содержание преамбулы}
+  \label{sec:other}
+
+  \subsection{Стилизация колон}
+  \label{subsec:width}
+  
+
+  Поскольку символы > и < можно использовать для добавления элементов перед содержимым ячейки столбца и после него, их можно использовать для добавления команд, влияющих на внешний вид столбца.
+  Например, если вы хотите выделить первый столбец курсивом и поставить после него двоеточие,
+  вы можете сделать следующее:
+
+
+  \smallskip
+
+  \begin{tabular}{>{\itshape}l<{:} *{2}{l}}
+  \toprule
+    Animal & Food & Size \\
+  \midrule
+    dog & meat & medium \\
+    horse & hay & large \\
+    frog & flies & small \\
+  \bottomrule
+  \end{tabular}
+
+  \smallskip
+
+
+  Возможно, вы захотите оставить первую ячейку без изменений, поскольку она является заголовком таблицы. Здесь можно использовать
+  multicolumn. Помните, что с его помощью можно изменить выравнивание одной
+  ячейки, как показано ниже.
+
+  \smallskip
+
+  \begin{tabular}{>{\itshape}l<{:} *{2}{l}}
+  \toprule
+  \multicolumn{1}{l}{Animal} & Food & Size \\
+  \midrule
+    dog & meat & medium \\
+    horse & hay & large \\
+    frog & flies & small \\
+  \bottomrule
+  \end{tabular}
+
+  \smallskip
+
+  
+
+
+
+  \subsection{Манипулирование пространством между столбцами}
+  \label{subsec:width}
+  
+
+  Обычно LaTeX добавляет к каждому столбцу отступ с обеих сторон, чтобы придать ему сбалансированный вид и разделить их. Этот отступ определяется длиной tabcolsep. Поскольку каждый столбец имеет отступ с обеих сторон, получается один tabcolsep с
+  каждого конца таблицы и два tabcolsep между двумя столбцами — по одному от каждого
+  столбца. Вы можете настроить этот отступ до любой длины с помощью setlength:
+
+
+  \smallskip
+
+  \setlength\tabcolsep{1cm}
+  \begin{tabular}{lll}
+    Animal & Food & Size \\
+    dog & meat & medium \\
+    horse & hay & large \\
+    frog & flies & small \\
+  \end{tabular}
+
+  \smallskip
+
+
+
+
+  \subsection{Вертикальные правила}
+  \label{subsec:width}
+  
+  Иногда приходится использовать вертикальные правила.
+
+
+  \smallskip
+
+  \begin{tabular}{l|ll}
+    Animal & Food & Size \\[2pt]
+    dog & meat & medium \\
+    horse & hay & large \\
+    frog & flies & small \\
+  \end{tabular}
+
+  \smallskip
+
+  Заметим, что поведение | очень похоже на !{decl}: он добавляет
+  вертикальную линию между двумя столбцами, оставляя отступы неизменными. Однако есть огромный
+  недостаток: вертикальные линии не работают с горизонтальными линиями, предоставляемыми booktabs. Вы можете использовать горизонтальные линии, предоставляемые LaTeX; это
+  hline (соответствующая toprule, midrule и bottomrule) и cline
+  (которая ведёт себя как cmidrule). Как показано выше, вертикальные линии будут охватывать любой
+  промежуток, указанный в необязательном аргументе \\.
+
+
+
+  \section{Настройка правил BookTabs}
+  \label{sec:booktabsrules}
+  
+  Все правила booktabs, а также addlinespace поддерживают необязательный аргумент в скобках, с помощью которого можно задать толщину линии. Кроме того, обрезку,
+  предоставляемую cmidrule, можно настроить, указав длину в скобках после r
+  или l.
+
+  \smallskip
+
+  \begin{tabular}{@{} lll@{}} \toprule[2pt]
+    Animal & Food & Size \\ \midrule[1pt]
+    dog & meat & medium \\
+  \cmidrule[0.5pt](r{1pt}l{1cm}){1-2}
+    horse & hay & large \\
+    frog & flies & small \\ \bottomrule[2pt]
+  \end{tabular}
+
+  \smallskip
+
+
+  
+  \section{Числовое выравнивание в колонах}
+  \label{sec:alignment}
+  
+  Выравнивание чисел в таблицах можно реализовать с помощью столбца типа S, который
+  предоставляется пакетом siunitx.
+  Простой пример с двумя выровненными числовыми столбцами:
+
+  \smallskip
+
+  \begin{tabular}{SS}
+  \toprule
+  {Values} & {More Values} \\
+  \midrule
+    1 & 2.3456 \\
+    1.2 & 34.2345 \\
+    -2.3 & 90.473 \\
+    40 & 5642.5 \\
+    5.3 & 1.2e3 \\
+    0.2 & 1e4 \\
+  \bottomrule
+  \end{tabular}
+
+  \smallskip
+
+  Обратите внимание, что любая нечисловая ячейка должна быть «защищена» фигурными скобками.
+  Пакет siunitx предоставляет множество возможностей для форматирования чисел
+  различными способами; см. документацию к пакету.
+
+
+
+
+  \section{Указание общей ширины таблицы}
+  \label{sec:tablewidth}
+  
+  Ширина табличной среды автоматически определяется на основе
+  содержимого таблицы. Существует два распространённых механизма для указания
+  различной общей ширины.
+  Обратите внимание, что почти всегда предпочтительнее отформатировать таблицу до заданной ширины, как указано ниже (возможно, используя размер шрифта, например, \small, если необходимо), чем масштабировать
+  таблицу с помощью resizebox и подобных команд, что приведёт к несоответствию
+  размеров шрифтов и ширины линеек.
+
+  \subsection{tabular*}
+  \label{subsec:width}
+  
+
+  Окружение tabular принимает дополнительный аргумент width, который задаёт
+  общую ширину таблицы. Растягивающееся пространство необходимо добавить к таблице с помощью команды extracolsep. Это пространство добавляется между всеми столбцами, начиная с данной
+  точки в преамбуле. Оно почти всегда используется с fill — специальным пространством, которое
+  растягивается до необходимого размера.
+
+
+  \smallskip
+
+  \begin{center}
+  \begin{tabular}{cc}
+  \hline
+    A & B\\
+    C & D\\
+  \hline
+  \end{tabular}
+  \end{center}
+  \begin{center}
+  \begin{tabular*}{.5\textwidth}{@{\extracolsep{\fill}}cc@{}}
+  \hline
+    A & B\\
+    C & D\\
+  \hline
+  \end{tabular*}
+  \end{center}
+  \begin{center}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}cc@{}}
+  \hline
+    A & B\\
+    C & D\\
+  \hline
+  \end{tabular*}
+  \end{center}
+
+  \smallskip
+
+
+
+  \subsection{tabularx}
+  \label{subsec:width}
+  
+
+  Среда tabularx, предоставляемая пакетом с тем же именем, имеет
+  синтаксис, похожий на tabular*, но вместо регулировки межстолбцового пространства корректирует
+  ширину столбцов, заданную новым типом столбца X. Это эквивалентно
+  указанию p{...} для автоматически определяемой ширины.
+
+
+  \smallskip
+
+  \begin{center}
+  \begin{tabular}{lp{2cm}}
+  \hline
+    A & B B B B B B B B B B B B B B B B B B B B B B B B\\
+    C & D D D D D D D\\
+  \hline
+  \end{tabular}
+  \end{center}
+  \begin{center}
+  \begin{tabularx}{.5\textwidth}{lX}
+  \hline
+    A & B B B B B B B B B B B B B B B B B B B B B B B B\\
+    C & D D D D D D D\\
+  \hline
+  \end{tabularx}
+  \end{center}
+  \begin{center}
+  \begin{tabularx}{\textwidth}{lX}
+  \hline
+    A & B B B B B B B B B B B B B B B B B B B B B B B B\\
+    C & D D D D D D D\\
+  \hline
+  \end{tabularx}
+  \end{center}
+
+  \smallskip
+
+  В отличие от других форм, обсуждаемых в этих уроках, tabularx необходимо несколько раз набрать таблицу с пробными значениями ширины, чтобы определить окончательные настройки. Это означает,
+  что существует ряд ограничений на использование среды; см. документацию пакета.
+
+
+
+
+
+  \subsection{Multi-page таблицы}
+  \label{subsec:width}
+  
+  Таблица образует неразрывный блок, поэтому она должна быть достаточно маленькой, чтобы поместиться на одной странице,
+  и часто размещается в среде плавающей таблицы.
+  Несколько пакетов предоставляют варианты со схожим синтаксисом, которые позволяют разбивать страницы.
+  Здесь представлен пакет longtable:
+
+
+  \smallskip
+
+  \begin{longtable}{cc}
+  \multicolumn{2}{c}{A Long Table}\\
+    Left Side & Right Side\\
+  \hline
+  \endhead
+  \hline
+  \endfoot
+    aa & bb\\
+    Entry & b\\
+    a & b\\
+    a & b\\
+    a & b\\
+    a & b\\
+    a & bbb\\
+    a & b\\
+    a & b\\
+    a & b\\
+    a & b\\
+    a & b\\
+    a & b\\
+    a & b b b b b b\\
+    a & b b b b b\\
+    a & b b\\
+    A Wider Entry & b\\
+\end{longtable}
+
+
+  \smallskip
+
+  Функция longtable примечательна тем, что сохраняет ширину столбцов на всех страницах
+таблицы; однако для достижения этого может потребоваться несколько запусков LaTeX, так что
+
+широкие записи, встречающиеся позже в таблице, могут повлиять на ширину столбцов на предыдущих
+страницах.
+
+
+
+
+
+  \subsection{Заметки таблицы}
+  \label{subsec:width}
+  
+  Довольно часто в таблицах требуются метки, похожие на сноски, для ссылок на примечания под таблицей. Пакет threeparttable упрощает разметку таких таблиц,
+  размещая примечания в блоке той же ширины, что и таблица. Подробную информацию см. в документации к пакету, но здесь мы приводим простой пример.
+
+
+  \smallskip
+
+  \begin{table}
+  \begin{threeparttable}
+  \caption{An Example}
+  \begin{tabular}{ll}
+    An entry & 42\tnote{1}\\
+    Another entry & 24\tnote{2}\\
+  \end{tabular}
+  \begin{tablenotes}
+  \item [1] the first note.
+  \item [2] the second note.
+  \end{tablenotes}
+  \end{threeparttable}
+  \end{table}
+
+
+
+
+
+  \section{Определение новых типов колон}
+  \label{sec:newtypes}
+  
+  Пакет Array позволяет использовать такие конструкции, как >{\bfseries}c, для обозначения полужирного
+  центрированного столбца. Часто бывает удобно определить новый тип столбца для инкапсуляции
+  такого использования, например
+
+  \newcolumntype{B}{>{\bfseries}c}
+  would allow the use of B in table preambles to specify a bold centered column.
+  \smallskip
+
+  
+
+  \section{Vertical tricks}
+  \label{sec:vertikaltricks}
+  
+  Часто вместо того, чтобы размещать ячейку в нескольких строках, лучше использовать
+  одну строку, в которой некоторые ячейки разделены по вертикали с помощью вложенных табличных
+  окружений.
+
+
+  \smallskip
+
+\begin{tabular}{lcc}
+\toprule
+Test & \begin{tabular}{@{}c@{}}A\\a\end{tabular} &
+ \begin{tabular}{@{}c@{}}B\\b\end{tabular} \\
+\midrule
+Content & is & here \\
+Content & is & here \\
+Content & is & here \\
+\bottomrule
+\end{tabular}
+
+
+
+
+  \section{Межстрочный интервал в таблицах}
+  \label{sec:interval}
+  
+  В основном уроке мы продемонстрировали функцию addlinespace из пакета booktabs,
+  полезную для добавления дополнительного интервала между определёнными строками.
+  Есть два общих параметра, управляющих межстрочным интервалом: arraystretch и
+  extrarowheight (последний из пакета array).
+  \renewcommand\arraystretch{1.5}
+  увеличит отступ от базовой линии на 50%.
+  Часто, особенно при использовании hline, лучше просто увеличить высоту
+  строк, не увеличивая их глубину ниже базовой линии. Следующий пример
+  демонстрирует использование параметра extrarowheight.
+
+
+  \smallskip
+
+\begin{center}
+\begin{tabular}{cc}
+\hline
+Square& $x^2$\\
+\hline
+Cube& $x^3$\\
+\hline
+\end{tabular}
+\end{center}
+\begin{center}
+\setlength\extrarowheight{2pt}
+\begin{tabular}{cc}
+\hline
+Square& $x^2$\\
+\hline
+Cube& $x^3$\\
+\hline
+\end{tabular}
+\end{center}
+
+
+
+  \section{Упражнения}
+  \label{sec:ex}
+
+  \subsection{Use the simple table example to start experimenting with tables.}
+  \label{subsec:width}
+
+  \begin{tabular}{lll}
+    Animal & Food & Size \\
+    dog & meat & medium \\
+    horse & hay & large \\
+    frog & flies & small \\
+  \end{tabular}
+
+
+
+  \subsection{Try out different alignments using the l, c and r column types.}
+  \label{subsec:width}
+
+  Все колонны с типом - r
+     \smallskip
+  \begin{tabular}{rrr}
+    Animal & Food & Size \\
+    dog & meat & medium \\
+    horse & hay & large \\
+    frog & flies & small \\
+  \end{tabular}
+
+  Все колонны с типом - l
+     \smallskip
+     \begin{tabular}{lll}
+    Animal & Food & Size \\
+    dog & meat & medium \\
+    horse & hay & large \\
+    frog & flies & small \\
+  \end{tabular}
+
+
+    Все колонны с типом - c
+     \smallskip
+
+     \begin{tabular}{ccc}
+    Animal & Food & Size \\
+    dog & meat & medium \\
+    horse & hay & large \\
+    frog & flies & small \\
+  \end{tabular}
+
+   \smallskip
+
+
+  \subsection{What happens if you have too few items in a table row?}
+  \label{subsec:width}
+
+
+  Недостающие элементы будут пропущены.
+  \smallskip
+
+
+  \begin{tabular}{ccc}
+     & Food \\
+    dog & meat & medium \\
+    horse & hay & large \\
+    frog & flies & small \\
+  \end{tabular}
+
+
+  \subsection{How about too many?}
+  \label{subsec:width}
+
+
+  Файл не скомпилируется, если мы укажем больше элементов, чем задано при описании таблицы.
+      
+  \begin{tabular}{lll}
+    % Animal & Food & Size & Size \\
+    dog & meat & medium \\
+    horse & hay & large \\
+    frog & flies & small \\
+  \end{tabular}
+
+
+  \subsection{Experiment with the multicolumn command to span across columns.}
+  \label{subsec:width}
+
+
+  \begin{tabular}{lll}
+  \toprule
+    Animal & Food & Size \\
+  \midrule
+    \multicolumn{2}{c}{spaned} & medium \\
+    horse & hay & large \\
+    frog & flies & small \\
+    fuath & \multicolumn{2}{c}{spaned} \\
+  \bottomrule
+  \end{tabular}
+
+  \section{Заключение}
+  \label{sec:conclusion}
+  
+  В данной работе были продемонстрированы:
+  \begin{itemize}
+    \item Базовое включение таблицы в документ (раздел~\ref{sec:basic})
+    \item Переполнение таблицы (раздел~\ref{sec:overflow})
+    \item Фикс проблемы переполнение таблицы (раздел~\ref{sec:overflowfix})
+    \item Сокращенное задание типов колон (раздел~\ref{sec:short})
+    \item Добавление правил (раздел~\ref{sec:rules})
+    \item Слияние столбцов (раздел~\ref{sec:merge})
+    \item Другое (раздел~\ref{sec:other})
+    \item Настройка правил BookTabs (раздел~\ref{sec:booktabsrules})
+    \item Числовое выравнивание в колоннах (раздел~\ref{sec:alignment})
+    \item Общая ширина таблицы (раздел~\ref{sec:tablewidth})
+    \item Определение новых типов колон (раздел~\ref{sec:newtypes})
+    \item Vertikal tricks (раздел~\ref{sec:vertikaltricks})
+    \item Межстрочный интервал в таблицах (раздел~\ref{sec:interval})
+    \item Упражения (раздел~\ref{sec:ex})
+  \end{itemize}
+
+  \textbf{Выводы:} В данной работе мы изучили возможности работы включения и манипулирования таблицами в LaTeX, освоили различные типы колон, научились использовать правила.
+
+\end{document}
